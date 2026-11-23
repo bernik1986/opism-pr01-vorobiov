@@ -1,0 +1,452 @@
+PR01: HTTP, HTTPS, DNS and TLS checks
+POWERSHELL: 5.1.26100.9818
+RESULTS: [local results directory]
+Each command and its actual timestamps are saved. DNS is repeated after approximately 6 minutes.
+CURL EXECUTABLE: C:\windows\system32\curl.exe
+
+=== 00_curl_version | 2026-11-23T08:20:51.5098408+01:00 ===
+COMMAND: curl.exe --version
+curl 8.22.0 (Windows) libcurl/8.22.0 Schannel zlib/1.3.2 WinIDN WinLDAP
+Release-Date: 2026-09-03
+Protocols: dict file ftp ftps gopher gophers http https imap imaps ipfs ipns ldap ldaps mqtt mqtts pop3 pop3s smtp smtps telnet tftp ws wss
+Features: alt-svc AsynchDNS HSTS HTTPS-proxy IDN IPv6 Kerberos Largefile libz SPNEGO SSL SSPI threadsafe Unicode UnixSockets
+
+FINISHED: 2026-11-23T08:20:51.6866691+01:00 | EXIT CODE: 0
+
+=== A3_system_first | 2026-11-23T08:20:51.7390064+01:00 ===
+COMMAND: Resolve-DnsName example.com -ErrorAction Continue 2>&1 | Out-String -Width 4096
+Resolve-DnsName : example.com : DNS name does not exist
+At line:118 char:28
++ ...    $items = @(Resolve-DnsName $pr01Domain -ErrorAction Continue 2>&1)
++                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ResourceUnavailable: (example.com:String) [Resolve-DnsName], Win32Exception
+    + FullyQualifiedErrorId : DNS_ERROR_RCODE_NAME_ERROR,Microsoft.DnsClient.Commands.ResolveDnsName
+ 
+
+FINISHED: 2026-11-23T08:20:52.0925138+01:00 | EXIT CODE: 
+ERROR: Resolve-DnsName : example.com : DNS name does not exist
+At line:118 char:28
++ ...    $items = @(Resolve-DnsName $pr01Domain -ErrorAction Continue 2>&1)
++                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ResourceUnavailable: (example.com:String) [Resolve-DnsName], Win32Exception
+    + FullyQualifiedErrorId : DNS_ERROR_RCODE_NAME_ERROR,Microsoft.DnsClient.Commands.ResolveDnsName
+
+=== A3_external_first | 2026-11-23T08:20:52.1234127+01:00 ===
+COMMAND: Resolve-DnsName example.com -Server 1.1.1.1 -ErrorAction Continue 2>&1 | Out-String -Width 4096
+
+Name                                           Type   TTL   Section    IPAddress                                
+----                                           ----   ---   -------    ---------                                
+example.com                                    AAAA   115   Answer     2606:4700:10::ac42:93f3                  
+example.com                                    AAAA   115   Answer     2606:4700:10::6814:179a                  
+example.com                                    A      128   Answer     172.66.147.243                           
+example.com                                    A      128   Answer     104.20.23.154                            
+
+
+
+FINISHED: 2026-11-23T08:20:52.4679478+01:00 | EXIT CODE: 
+
+=== A1_https | 2026-11-23T08:20:52.4824793+01:00 ===
+COMMAND: curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://example.com
+* Could not resolve host: example.com
+* Could not resolve host: example.com
+* Could not resolve: example.com:443
+* closing connection #0
+curl: (6) Could not resolve host: example.com
+
+FINISHED: 2026-11-23T08:20:52.6524562+01:00 | EXIT CODE: 6
+Supplemental A1 request: --resolve uses an address obtained in A3_external_first.
+
+=== A1_supplement_resolve | 2026-11-23T08:20:52.7232494+01:00 ===
+COMMAND: curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://example.com --resolve example.com:443:172.66.147.243
+* [DNS] added example.com:443:172.66.147.243 to cache
+* Hostname example.com was found in DNS cache
+* Host example.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 172.66.147.243
+*   Trying 172.66.147.243:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* ALPN: server accepted http/1.1
+* Established connection to example.com (172.66.147.243 port 443) from 192.168.129.83 port 53536 
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+
+  0      0   0      0   0      0      0      0                              0* using HTTP/1.x
+> GET / HTTP/1.1
+> Host: example.com
+> User-Agent: curl/8.22.0
+> Accept: */*
+> 
+* Request completely sent off
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+< HTTP/1.1 200 OK
+< Date: Mon, 23 Nov 2026 07:20:52 GMT
+< Content-Type: text/html; charset=utf-8
+< Transfer-Encoding: chunked
+< Connection: keep-alive
+< Server: cloudflare
+< last-modified: Thu, 19 Nov 2026 22:10:26 GMT
+< allow: GET, HEAD
+< Accept-Ranges: bytes
+< Age: 1994
+< cf-cache-status: HIT
+< CF-RAY: a5ee69f1cab82211-BRU
+< alt-svc: h3=":443"; ma=86400
+< 
+{ [589 bytes data]
+<!doctype html><html lang=en><head><meta charset=utf-8><link rel=icon href=data:,><meta name=viewport content="width=device-width,initial-scale=1"><title>Example Domain</title><style>html{color-scheme:light dark;background:light-dark(#eee,#222)}body{font:16px/1.6 system-ui,sans-serif;max-width:26em;margin:auto;padding:25vh 2em 2em;text-align:center}</style></head><body><p>This domain is for use in documentation examples without needing permission. This is not a service; avoid relying on it for testing and monitoring purposes.</p><script src=/s.js></script></body></html>
+
+100    577   0    577   0      0   1089      0                              0
+100    577   0    577   0      0   1089      0                              0
+100    577   0    577   0      0   1089      0                              0
+* Connection #0 to host example.com:443 left intact
+
+FINISHED: 2026-11-23T08:20:53.4088194+01:00 | EXIT CODE: 0
+
+=== A2_http | 2026-11-23T08:20:53.4138310+01:00 ===
+COMMAND: curl.exe -v --connect-timeout 15 --max-time 45 --stderr - http://neverssl.com
+* Host neverssl.com:80 was resolved.
+* IPv6: (none)
+* IPv4: 34.223.124.45
+*   Trying 34.223.124.45:80...
+* Connection timed out after 15002 milliseconds
+* closing connection #0
+curl: (28) Connection timed out after 15002 milliseconds
+
+FINISHED: 2026-11-23T08:21:08.5583182+01:00 | EXIT CODE: 28
+
+=== A4_google | 2026-11-23T08:21:08.5694268+01:00 ===
+COMMAND: curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://google.com
+* Host google.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 142.251.142.206
+*   Trying 142.251.142.206:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* ALPN: server accepted http/1.1
+* Established connection to google.com (142.251.142.206 port 443) from 192.168.129.83 port 53539 
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+
+  0      0   0      0   0      0      0      0                              0* using HTTP/1.x
+> GET / HTTP/1.1
+> Host: google.com
+> User-Agent: curl/8.22.0
+> Accept: */*
+> 
+* Request completely sent off
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+< HTTP/1.1 301 Moved Permanently
+< Location: https://www.google.com/
+< Content-Type: text/html; charset=UTF-8
+< Content-Security-Policy-Report-Only: object-src 'none';base-uri 'self';script-src 'nonce-gloephJpBVblT46lrbxpVw' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp
+< Date: Mon, 23 Nov 2026 07:21:08 GMT
+< Expires: Wed, 23 Dec 2026 07:21:08 GMT
+< Cache-Control: public, max-age=2592000
+< Server: gws
+< Content-Length: 220
+< X-XSS-Protection: 0
+< X-Frame-Options: SAMEORIGIN
+< Alt-Svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+< 
+{ [220 bytes data]
+<HTML><HEAD><meta http-equiv="content-type" content="text/html;charset=utf-8">
+<TITLE>301 Moved</TITLE></HEAD><BODY>
+<H1>301 Moved</H1>
+The document has moved
+<A HREF="https://www.google.com/">here</A>.
+</BODY></HTML>
+
+100    220 100    220   0      0    813      0                              0
+100    220 100    220   0      0    812      0                              0
+100    220 100    220   0      0    812      0                              0
+* Connection #0 to host google.com:443 left intact
+
+FINISHED: 2026-11-23T08:21:09.0595998+01:00 | EXIT CODE: 0
+
+=== A5_expired | 2026-11-23T08:21:09.0707266+01:00 ===
+COMMAND: curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://expired.badssl.com
+* Host expired.badssl.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 104.154.89.105
+*   Trying 104.154.89.105:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* schannel: next InitializeSecurityContext failed: SEC_E_CERT_EXPIRED (0x80090328) - The received certificate has expired.
+* closing connection #0
+curl: (35) schannel: next InitializeSecurityContext failed: SEC_E_CERT_EXPIRED (0x80090328) - The received certificate has expired.
+
+FINISHED: 2026-11-23T08:21:10.4132579+01:00 | EXIT CODE: 35
+
+=== A5_wrong_host | 2026-11-23T08:21:10.4183822+01:00 ===
+COMMAND: curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://wrong.host.badssl.com
+* Host wrong.host.badssl.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 104.154.89.105
+*   Trying 104.154.89.105:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* schannel: SNI or certificate check failed: SEC_E_WRONG_PRINCIPAL (0x80090322) - The target principal name is incorrect.
+* closing connection #0
+curl: (60) schannel: SNI or certificate check failed: SEC_E_WRONG_PRINCIPAL (0x80090322) - The target principal name is incorrect.
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the webpage mentioned above.
+
+FINISHED: 2026-11-23T08:21:14.0564526+01:00 | EXIT CODE: 60
+
+=== A5_self_signed | 2026-11-23T08:21:14.0630948+01:00 ===
+COMMAND: curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://self-signed.badssl.com
+* Host self-signed.badssl.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 104.154.89.105
+*   Trying 104.154.89.105:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* schannel: SEC_E_UNTRUSTED_ROOT (0x80090325) - The certificate chain was issued by an authority that is not trusted.
+* closing connection #0
+curl: (60) schannel: SEC_E_UNTRUSTED_ROOT (0x80090325) - The certificate chain was issued by an authority that is not trusted.
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the webpage mentioned above.
+
+FINISHED: 2026-11-23T08:21:15.4241141+01:00 | EXIT CODE: 60
+Waiting for system DNS repeat: 337 seconds remaining.
+Waiting for system DNS repeat: 307 seconds remaining.
+Waiting for system DNS repeat: 276 seconds remaining.
+Waiting for system DNS repeat: 246 seconds remaining.
+Waiting for system DNS repeat: 216 seconds remaining.
+Waiting for system DNS repeat: 186 seconds remaining.
+Waiting for system DNS repeat: 156 seconds remaining.
+Waiting for system DNS repeat: 126 seconds remaining.
+Waiting for system DNS repeat: 96 seconds remaining.
+Waiting for system DNS repeat: 66 seconds remaining.
+Waiting for system DNS repeat: 36 seconds remaining.
+Waiting for system DNS repeat: 6 seconds remaining.
+
+=== A3_system_second | 2026-11-23T08:26:52.4437192+01:00 ===
+COMMAND: Resolve-DnsName example.com -ErrorAction Continue 2>&1 | Out-String -Width 4096
+Resolve-DnsName : example.com : DNS name does not exist
+At line:118 char:28
++ ...    $items = @(Resolve-DnsName $pr01Domain -ErrorAction Continue 2>&1)
++                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ResourceUnavailable: (example.com:String) [Resolve-DnsName], Win32Exception
+    + FullyQualifiedErrorId : DNS_ERROR_RCODE_NAME_ERROR,Microsoft.DnsClient.Commands.ResolveDnsName
+ 
+
+FINISHED: 2026-11-23T08:26:52.6038931+01:00 | EXIT CODE: 
+ERROR: Resolve-DnsName : example.com : DNS name does not exist
+At line:118 char:28
++ ...    $items = @(Resolve-DnsName $pr01Domain -ErrorAction Continue 2>&1)
++                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ResourceUnavailable: (example.com:String) [Resolve-DnsName], Win32Exception
+    + FullyQualifiedErrorId : DNS_ERROR_RCODE_NAME_ERROR,Microsoft.DnsClient.Commands.ResolveDnsName
+
+=== A3_external_second | 2026-11-23T08:26:52.6179182+01:00 ===
+COMMAND: Resolve-DnsName example.com -Server 1.1.1.1 -ErrorAction Continue 2>&1 | Out-String -Width 4096
+
+Name                                           Type   TTL   Section    IPAddress                                
+----                                           ----   ---   -------    ---------                                
+example.com                                    AAAA   54    Answer     2606:4700:10::ac42:93f3                  
+example.com                                    AAAA   54    Answer     2606:4700:10::6814:179a                  
+example.com                                    A      70    Answer     172.66.147.243                           
+example.com                                    A      70    Answer     104.20.23.154                            
+
+
+
+FINISHED: 2026-11-23T08:26:52.6629903+01:00 | EXIT CODE: 
+
+DNS COMPARISON: system | actual interval: 360.707 seconds
+No matching address records in both responses; no TTL values were compared.
+
+DNS COMPARISON: 1_1_1_1 | actual interval: 360.495 seconds
+
+resolver name        type ip_address              ttl_first ttl_second ttl_change interval_seconds
+-------- ----        ---- ----------              --------- ---------- ---------- ----------------
+1_1_1_1  example.com AAAA 2606:4700:10::ac42:93f3       115         54        -61          360.495
+1_1_1_1  example.com AAAA 2606:4700:10::6814:179a       115         54        -61          360.495
+1_1_1_1  example.com A    172.66.147.243                128         70        -58          360.495
+1_1_1_1  example.com A    104.20.23.154                 128         70        -58          360.495
+
+
+
+
+=== A2_http_retry | 2026-11-23T08:26:52.8470868+01:00 ===
+COMMAND: curl.exe -v --connect-timeout 15 --max-time 45 --stderr - http://neverssl.com
+* Host neverssl.com:80 was resolved.
+* IPv6: (none)
+* IPv4: 34.223.124.45
+*   Trying 34.223.124.45:80...
+* Established connection to neverssl.com (34.223.124.45 port 80) from 192.168.129.83 port 52156 
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+
+  0      0   0      0   0      0      0      0           00:03              0* using HTTP/1.x
+> GET / HTTP/1.1
+> Host: neverssl.com
+> User-Agent: curl/8.22.0
+> Accept: */*
+> 
+* Request completely sent off
+< HTTP/1.1 200 OK
+< Date: Mon, 23 Nov 2026 07:26:55 GMT
+< Server: Apache/2.4.68 ()
+< Upgrade: h2,h2c
+< Connection: Upgrade
+< Last-Modified: Wed, 29 Jun 2022 00:23:33 GMT
+< ETag: "f79-5e28b29d38e93"
+< Accept-Ranges: bytes
+< Content-Length: 3961
+< Vary: Accept-Encoding
+< Content-Type: text/html; charset=UTF-8
+< 
+{ [3961 bytes data]
+<html>
+	<head>
+		<title>NeverSSL - Connecting ... </title>
+		<style>
+		body {
+			font-family: Montserrat, helvetica, arial, sans-serif;
+			font-size: 16x;
+			color: #444444;
+			margin: 0;
+		}
+		h2 {
+			font-weight: 700;
+			font-size: 1.6em;
+			margin-top: 30px;
+		}
+		p {
+			line-height: 1.6em;
+		}
+		.container {
+			max-width: 650px;
+			margin: 20px auto 20px auto;
+			padding-left: 15px;
+			padding-right: 15px
+		}
+		.header {
+			background-color: #42C0FD;
+			color: #FFFFFF;
+			padding: 10px 0 10px 0;
+			font-size: 2.2em;
+		}
+		.notice {
+			background-color: red;
+			color: white;
+			padding: 10px 0 10px 0;
+			font-size: 1.25em;
+			animation: flash 4s infinite;
+		}
+		@keyframes flash {
+		0% {
+			background-color: red;
+		}
+		50% {
+			background-color: #AA0000;
+		}
+		0% {
+			background-color: red;
+		}
+		}
+		<!-- CSS from Mark Webster https://gist.github.com/markcwebster/9bdf30655cdd5279bad13993ac87c85d -->
+		</style>
+
+		<script>
+			var adjectives = [ 'cool' , 'calm' , 'relaxed', 'soothing', 'serene', 'slow',
+							'beautiful', 'wonderful', 'wonderous', 'fun', 'good',
+							'glowing', 'inner', 'grand', 'majestic', 'astounding',
+							'fine', 'splendid', 'transcendent', 'sublime', 'whole',
+							'unique', 'old', 'young', 'fresh', 'clear', 'shiny',
+							'shining', 'lush', 'quiet', 'bright', 'silver' ];
+
+			var nouns =	  [ 'day', 'dawn', 'peace', 'smile', 'love', 'zen', 'laugh',
+							'yawn', 'poem', 'song', 'joke', 'verse', 'kiss', 'sunrise',
+							'sunset', 'eclipse', 'moon', 'rainbow', 'rain', 'plan',
+							'play', 'chart', 'birds', 'stars', 'pathway', 'secret',
+							'treasure', 'melody', 'magic', 'spell', 'light', 'morning'];
+
+			var prefix =
+					// Choose 3 zen adjectives
+					adjectives.sort(function(){return 0.5-Math.random()}).slice(-3).join('')
+					+
+					// Coupled with a zen noun
+					nouns.sort(function(){return 0.5-Math.random()}).slice(-1).join('');
+			window.location.href = 'http://' + prefix + '.neverssl.com/online';
+		</script>
+	</head>
+	<body>
+	<noscript>
+		<div class="notice">
+			<div class="container">
+				⚠️ JavaScript appears to be disabled. NeverSSL's cache-busting works better if you enable JavaScript for <code>neverssl.com</code>.
+			</div>
+		</div>
+	</noscript>
+	<div class="header">
+		<div class="container">
+		<h1>NeverSSL</h1>
+		</div>
+	</div>
+	<div class="content">
+	<div class="container">
+
+	<h1 id="status"></h1>
+	<script>document.querySelector("#status").textContent = "Connecting ...";</script>
+	<noscript>
+
+		<h2>What?</h2>
+		<p>This website is for when you try to open Facebook, Google, Amazon, etc
+		on a wifi network, and nothing happens. Type "http://neverssl.com"
+		into your browser's url bar, and you'll be able to log on.</p>
+
+		<h2>How?</h2>
+		<p>neverssl.com will never use SSL (also known as TLS). No
+		encryption, no strong authentication, no <a
+		href="https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security">HSTS</a>,
+		no HTTP/2.0, just plain old unencrypted HTTP and forever stuck in the dark
+		ages of internet security.</p>
+
+		<h2>Why?</h2>
+		<p>Normally, that's a bad idea. You should always use SSL and secure
+		encryption when possible. In fact, it's such a bad idea that most websites
+		are now using https by default.</p>
+
+		<p>And that's great, but it also means that if you're relying on
+		poorly-behaved wifi networks, it can be hard to get online.  Secure
+		browsers and websites using https make it impossible for those wifi
+		networks to send you to a login or payment page. Basically, those networks
+		can't tap into your connection just like attackers can't. Modern browsers
+		are so good that they can remember when a website supports encryption and
+		even if you type in the website name, they'll use https.</p>
+
+		<p>And if the network never redirects you to this page, well as you can
+		see, you're not missing much.</p>
+
+        <a href="https://twitter.com/neverssl">Follow @neverssl</a>
+
+	</noscript>
+
+	</div>
+	</div>
+
+	</body>
+</html>
+
+100   3961 100   3961   0      0   1187      0   00:03   00:03              0
+100   3961 100   3961   0      0   1187      0   00:03   00:03              0
+100   3961 100   3961   0      0   1187      0   00:03   00:03              0
+* Connection #0 to host neverssl.com:80 left intact
+
+FINISHED: 2026-11-23T08:26:56.2693674+01:00 | EXIT CODE: 0
+
+DONE: scheduled checks completed. Review the recorded responses and any errors.
+RESULTS: [local results directory]

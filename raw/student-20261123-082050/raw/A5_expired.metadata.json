@@ -1,0 +1,9 @@
+{
+    "experiment":  "A5_expired",
+    "command":  "curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://expired.badssl.com",
+    "started":  "2026-11-23T08:21:09.0707266+01:00",
+    "started_elapsed_seconds":  18.911520199999998,
+    "finished":  "2026-11-23T08:21:10.4132579+01:00",
+    "exit_code":  35,
+    "error":  null
+}

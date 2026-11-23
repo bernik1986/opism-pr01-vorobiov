@@ -1,0 +1,9 @@
+{
+    "experiment":  "A4_google",
+    "command":  "curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://google.com",
+    "started":  "2026-11-23T08:21:08.5694268+01:00",
+    "started_elapsed_seconds":  18.410737299999997,
+    "finished":  "2026-11-23T08:21:09.0595998+01:00",
+    "exit_code":  0,
+    "error":  null
+}

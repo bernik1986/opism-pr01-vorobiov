@@ -1,0 +1,73 @@
+{
+    "operator":  "Команди фактично запущені асистентом на робочій станції користувача; особисте виконання студентом не підтверджено.",
+    "student":  "Воробйов Дмитро",
+    "academic_group":  "ЗКН-21",
+    "selection_note":  "Варіант 1 обраний за дозволом користувача; таблиця 1 умовна, якщо її не уточнено",
+    "group_table":  1,
+    "variant":  1,
+    "domain":  "example.com",
+    "curl_version":  "curl 8.22.0 (Windows) libcurl/8.22.0 Schannel zlib/1.3.2 WinIDN WinLDAP",
+    "environment":  "Windows",
+    "measurements":  [
+                         {
+                             "task":  "A.1",
+                             "command":  "curl.exe -v https://example.com",
+                             "started":  "2026-11-22T22:54:28.3831525+01:00",
+                             "exit_code":  6,
+                             "file":  "raw/a1-curl-https.txt"
+                         },
+                         {
+                             "task":  "A.2",
+                             "command":  "curl.exe -v http://neverssl.com",
+                             "started":  "2026-11-22T22:54:28.9073154+01:00",
+                             "exit_code":  28,
+                             "file":  "raw/a2-curl-http.txt"
+                         },
+                         {
+                             "task":  "A.3, перше виконання",
+                             "command":  "Resolve-DnsName example.com",
+                             "started":  "2026-11-22T22:54:50.8269269+01:00",
+                             "file":  "raw/a3-dns-first.txt",
+                             "addresses":  [
+
+                                           ]
+                         },
+                         {
+                             "task":  "A.3, повторне виконання",
+                             "command":  "Resolve-DnsName example.com",
+                             "started":  "2026-11-22T23:00:51.9029177+01:00",
+                             "file":  "raw/a3-dns-second.txt",
+                             "addresses":  [
+
+                                           ]
+                         },
+                         {
+                             "task":  "A.4",
+                             "command":  "curl.exe -v https://google.com",
+                             "started":  "2026-11-22T23:00:52.1663911+01:00",
+                             "exit_code":  0,
+                             "file":  "raw/a4-google.txt"
+                         },
+                         {
+                             "task":  "A.5, expired",
+                             "command":  "curl.exe -v https://expired.badssl.com",
+                             "started":  "2026-11-22T23:00:52.5465667+01:00",
+                             "exit_code":  28,
+                             "file":  "raw/a5-expired.txt"
+                         },
+                         {
+                             "task":  "A.5, wrong.host",
+                             "command":  "curl.exe -v https://wrong.host.badssl.com",
+                             "started":  "2026-11-22T23:01:13.7888681+01:00",
+                             "exit_code":  60,
+                             "file":  "raw/a5-wrong-host.txt"
+                         },
+                         {
+                             "task":  "A.5, self-signed",
+                             "command":  "curl.exe -v https://self-signed.badssl.com",
+                             "started":  "2026-11-22T23:01:22.2988777+01:00",
+                             "exit_code":  60,
+                             "file":  "raw/a5-self-signed.txt"
+                         }
+                     ]
+}

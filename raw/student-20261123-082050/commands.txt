@@ -1,0 +1,39 @@
+00_curl_version
+curl.exe --version
+
+A3_system_first
+Resolve-DnsName example.com -ErrorAction Continue 2>&1 | Out-String -Width 4096
+
+A3_external_first
+Resolve-DnsName example.com -Server 1.1.1.1 -ErrorAction Continue 2>&1 | Out-String -Width 4096
+
+A1_https
+curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://example.com
+
+A1_supplement_resolve
+curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://example.com --resolve example.com:443:172.66.147.243
+
+A2_http
+curl.exe -v --connect-timeout 15 --max-time 45 --stderr - http://neverssl.com
+
+A4_google
+curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://google.com
+
+A5_expired
+curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://expired.badssl.com
+
+A5_wrong_host
+curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://wrong.host.badssl.com
+
+A5_self_signed
+curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://self-signed.badssl.com
+
+A3_system_second
+Resolve-DnsName example.com -ErrorAction Continue 2>&1 | Out-String -Width 4096
+
+A3_external_second
+Resolve-DnsName example.com -Server 1.1.1.1 -ErrorAction Continue 2>&1 | Out-String -Width 4096
+
+A2_http_retry
+curl.exe -v --connect-timeout 15 --max-time 45 --stderr - http://neverssl.com
+

@@ -1,0 +1,119 @@
+[
+    {
+        "experiment":  "00_curl_version",
+        "command":  "curl.exe --version",
+        "started":  "2026-11-23T08:20:51.5098408+01:00",
+        "started_elapsed_seconds":  1.354356,
+        "finished":  "2026-11-23T08:20:51.6866691+01:00",
+        "exit_code":  0,
+        "error":  null
+    },
+    {
+        "experiment":  "A3_system_first",
+        "command":  "Resolve-DnsName example.com -ErrorAction Continue 2\u003e\u00261 | Out-String -Width 4096",
+        "started":  "2026-11-23T08:20:51.7390064+01:00",
+        "started_elapsed_seconds":  1.5803931999999998,
+        "finished":  "2026-11-23T08:20:52.0925138+01:00",
+        "exit_code":  null,
+        "error":  "Resolve-DnsName : example.com : DNS name does not exist\r\nAt line:118 char:28\r\n+ ...    $items = @(Resolve-DnsName $pr01Domain -ErrorAction Continue 2\u003e\u00261)\r\n+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : ResourceUnavailable: (example.com:String) [Resolve-DnsName], Win32Exception\r\n    + FullyQualifiedErrorId : DNS_ERROR_RCODE_NAME_ERROR,Microsoft.DnsClient.Commands.ResolveDnsName"
+    },
+    {
+        "experiment":  "A3_external_first",
+        "command":  "Resolve-DnsName example.com -Server 1.1.1.1 -ErrorAction Continue 2\u003e\u00261 | Out-String -Width 4096",
+        "started":  "2026-11-23T08:20:52.1234127+01:00",
+        "started_elapsed_seconds":  1.9642559,
+        "finished":  "2026-11-23T08:20:52.4679478+01:00",
+        "exit_code":  null,
+        "error":  ""
+    },
+    {
+        "experiment":  "A1_https",
+        "command":  "curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://example.com",
+        "started":  "2026-11-23T08:20:52.4824793+01:00",
+        "started_elapsed_seconds":  2.3245876,
+        "finished":  "2026-11-23T08:20:52.6524562+01:00",
+        "exit_code":  6,
+        "error":  null
+    },
+    {
+        "experiment":  "A1_supplement_resolve",
+        "command":  "curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://example.com --resolve example.com:443:172.66.147.243",
+        "started":  "2026-11-23T08:20:52.7232494+01:00",
+        "started_elapsed_seconds":  2.5640529,
+        "finished":  "2026-11-23T08:20:53.4088194+01:00",
+        "exit_code":  0,
+        "error":  null
+    },
+    {
+        "experiment":  "A2_http",
+        "command":  "curl.exe -v --connect-timeout 15 --max-time 45 --stderr - http://neverssl.com",
+        "started":  "2026-11-23T08:20:53.4138310+01:00",
+        "started_elapsed_seconds":  3.2558225,
+        "finished":  "2026-11-23T08:21:08.5583182+01:00",
+        "exit_code":  28,
+        "error":  null
+    },
+    {
+        "experiment":  "A4_google",
+        "command":  "curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://google.com",
+        "started":  "2026-11-23T08:21:08.5694268+01:00",
+        "started_elapsed_seconds":  18.410737299999997,
+        "finished":  "2026-11-23T08:21:09.0595998+01:00",
+        "exit_code":  0,
+        "error":  null
+    },
+    {
+        "experiment":  "A5_expired",
+        "command":  "curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://expired.badssl.com",
+        "started":  "2026-11-23T08:21:09.0707266+01:00",
+        "started_elapsed_seconds":  18.911520199999998,
+        "finished":  "2026-11-23T08:21:10.4132579+01:00",
+        "exit_code":  35,
+        "error":  null
+    },
+    {
+        "experiment":  "A5_wrong_host",
+        "command":  "curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://wrong.host.badssl.com",
+        "started":  "2026-11-23T08:21:10.4183822+01:00",
+        "started_elapsed_seconds":  20.260275,
+        "finished":  "2026-11-23T08:21:14.0564526+01:00",
+        "exit_code":  60,
+        "error":  null
+    },
+    {
+        "experiment":  "A5_self_signed",
+        "command":  "curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://self-signed.badssl.com",
+        "started":  "2026-11-23T08:21:14.0630948+01:00",
+        "started_elapsed_seconds":  23.9041717,
+        "finished":  "2026-11-23T08:21:15.4241141+01:00",
+        "exit_code":  60,
+        "error":  null
+    },
+    {
+        "experiment":  "A3_system_second",
+        "command":  "Resolve-DnsName example.com -ErrorAction Continue 2\u003e\u00261 | Out-String -Width 4096",
+        "started":  "2026-11-23T08:26:52.4437192+01:00",
+        "started_elapsed_seconds":  362.28695749999997,
+        "finished":  "2026-11-23T08:26:52.6038931+01:00",
+        "exit_code":  null,
+        "error":  "Resolve-DnsName : example.com : DNS name does not exist\r\nAt line:118 char:28\r\n+ ...    $items = @(Resolve-DnsName $pr01Domain -ErrorAction Continue 2\u003e\u00261)\r\n+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : ResourceUnavailable: (example.com:String) [Resolve-DnsName], Win32Exception\r\n    + FullyQualifiedErrorId : DNS_ERROR_RCODE_NAME_ERROR,Microsoft.DnsClient.Commands.ResolveDnsName"
+    },
+    {
+        "experiment":  "A3_external_second",
+        "command":  "Resolve-DnsName example.com -Server 1.1.1.1 -ErrorAction Continue 2\u003e\u00261 | Out-String -Width 4096",
+        "started":  "2026-11-23T08:26:52.6179182+01:00",
+        "started_elapsed_seconds":  362.4596092,
+        "finished":  "2026-11-23T08:26:52.6629903+01:00",
+        "exit_code":  null,
+        "error":  ""
+    },
+    {
+        "experiment":  "A2_http_retry",
+        "command":  "curl.exe -v --connect-timeout 15 --max-time 45 --stderr - http://neverssl.com",
+        "started":  "2026-11-23T08:26:52.8470868+01:00",
+        "started_elapsed_seconds":  362.68835789999997,
+        "finished":  "2026-11-23T08:26:56.2693674+01:00",
+        "exit_code":  0,
+        "error":  null
+    }
+]

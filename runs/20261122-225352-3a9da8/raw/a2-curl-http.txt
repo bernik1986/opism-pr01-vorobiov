@@ -1,0 +1,5 @@
+* Could not resolve host: neverssl.com
+* Could not resolve host: neverssl.com
+* Could not resolve: neverssl.com:80
+* closing connection #0
+curl: (6) Could not resolve host: neverssl.com

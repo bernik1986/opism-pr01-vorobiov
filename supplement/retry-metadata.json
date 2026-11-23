@@ -1,0 +1,14 @@
+[
+  {
+    "name": "expired",
+    "started": "2026-11-22T23:02:52.3112180+01:00",
+    "command": "curl.exe -v https://expired.badssl.com",
+    "exit_code": 35
+  },
+  {
+    "name": "neverssl",
+    "started": "2026-11-22T23:02:52.9395901+01:00",
+    "command": "curl.exe -v http://neverssl.com",
+    "exit_code": 0
+  }
+]

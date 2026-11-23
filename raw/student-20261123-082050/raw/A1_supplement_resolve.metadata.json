@@ -1,0 +1,9 @@
+{
+    "experiment":  "A1_supplement_resolve",
+    "command":  "curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://example.com --resolve example.com:443:172.66.147.243",
+    "started":  "2026-11-23T08:20:52.7232494+01:00",
+    "started_elapsed_seconds":  2.5640529,
+    "finished":  "2026-11-23T08:20:53.4088194+01:00",
+    "exit_code":  0,
+    "error":  null
+}

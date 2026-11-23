@@ -1,0 +1,9 @@
+{
+    "experiment":  "A3_system_second",
+    "command":  "Resolve-DnsName example.com -ErrorAction Continue 2\u003e\u00261 | Out-String -Width 4096",
+    "started":  "2026-11-23T08:26:52.4437192+01:00",
+    "started_elapsed_seconds":  362.28695749999997,
+    "finished":  "2026-11-23T08:26:52.6038931+01:00",
+    "exit_code":  null,
+    "error":  "Resolve-DnsName : example.com : DNS name does not exist\r\nAt line:118 char:28\r\n+ ...    $items = @(Resolve-DnsName $pr01Domain -ErrorAction Continue 2\u003e\u00261)\r\n+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : ResourceUnavailable: (example.com:String) [Resolve-DnsName], Win32Exception\r\n    + FullyQualifiedErrorId : DNS_ERROR_RCODE_NAME_ERROR,Microsoft.DnsClient.Commands.ResolveDnsName"
+}

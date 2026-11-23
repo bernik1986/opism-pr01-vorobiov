@@ -1,0 +1,9 @@
+{
+    "experiment":  "00_curl_version",
+    "command":  "curl.exe --version",
+    "started":  "2026-11-23T08:20:51.5098408+01:00",
+    "started_elapsed_seconds":  1.354356,
+    "finished":  "2026-11-23T08:20:51.6866691+01:00",
+    "exit_code":  0,
+    "error":  null
+}

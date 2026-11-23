@@ -1,0 +1,42 @@
+[
+    {
+        "resolver":  "1_1_1_1",
+        "name":  "example.com",
+        "type":  "AAAA",
+        "ip_address":  "2606:4700:10::ac42:93f3",
+        "ttl_first":  115,
+        "ttl_second":  54,
+        "ttl_change":  -61,
+        "interval_seconds":  360.495
+    },
+    {
+        "resolver":  "1_1_1_1",
+        "name":  "example.com",
+        "type":  "AAAA",
+        "ip_address":  "2606:4700:10::6814:179a",
+        "ttl_first":  115,
+        "ttl_second":  54,
+        "ttl_change":  -61,
+        "interval_seconds":  360.495
+    },
+    {
+        "resolver":  "1_1_1_1",
+        "name":  "example.com",
+        "type":  "A",
+        "ip_address":  "172.66.147.243",
+        "ttl_first":  128,
+        "ttl_second":  70,
+        "ttl_change":  -58,
+        "interval_seconds":  360.495
+    },
+    {
+        "resolver":  "1_1_1_1",
+        "name":  "example.com",
+        "type":  "A",
+        "ip_address":  "104.20.23.154",
+        "ttl_first":  128,
+        "ttl_second":  70,
+        "ttl_change":  -58,
+        "interval_seconds":  360.495
+    }
+]

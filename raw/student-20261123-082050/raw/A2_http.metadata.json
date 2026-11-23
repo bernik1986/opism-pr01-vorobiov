@@ -1,0 +1,9 @@
+{
+    "experiment":  "A2_http",
+    "command":  "curl.exe -v --connect-timeout 15 --max-time 45 --stderr - http://neverssl.com",
+    "started":  "2026-11-23T08:20:53.4138310+01:00",
+    "started_elapsed_seconds":  3.2558225,
+    "finished":  "2026-11-23T08:21:08.5583182+01:00",
+    "exit_code":  28,
+    "error":  null
+}

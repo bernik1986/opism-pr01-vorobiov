@@ -1,0 +1,9 @@
+{
+    "experiment":  "A5_self_signed",
+    "command":  "curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://self-signed.badssl.com",
+    "started":  "2026-11-23T08:21:14.0630948+01:00",
+    "started_elapsed_seconds":  23.9041717,
+    "finished":  "2026-11-23T08:21:15.4241141+01:00",
+    "exit_code":  60,
+    "error":  null
+}

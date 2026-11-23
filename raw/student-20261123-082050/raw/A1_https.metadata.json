@@ -1,0 +1,9 @@
+{
+    "experiment":  "A1_https",
+    "command":  "curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://example.com",
+    "started":  "2026-11-23T08:20:52.4824793+01:00",
+    "started_elapsed_seconds":  2.3245876,
+    "finished":  "2026-11-23T08:20:52.6524562+01:00",
+    "exit_code":  6,
+    "error":  null
+}

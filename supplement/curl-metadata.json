@@ -1,0 +1,5 @@
+{
+    "command":  "curl.exe -v https://example.com --resolve example.com:443:104.20.23.154",
+    "started":  "2026-11-22T22:56:33.5503255+01:00",
+    "exit_code":  0
+}

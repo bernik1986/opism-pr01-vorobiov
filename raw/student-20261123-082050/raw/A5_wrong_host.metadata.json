@@ -1,0 +1,9 @@
+{
+    "experiment":  "A5_wrong_host",
+    "command":  "curl.exe -v --connect-timeout 15 --max-time 45 --stderr - https://wrong.host.badssl.com",
+    "started":  "2026-11-23T08:21:10.4183822+01:00",
+    "started_elapsed_seconds":  20.260275,
+    "finished":  "2026-11-23T08:21:14.0564526+01:00",
+    "exit_code":  60,
+    "error":  null
+}

@@ -1,0 +1,1 @@
+Resolve-DnsName example.com -Server 1.1.1.1 -ErrorAction Continue 2>&1 | Out-String -Width 4096

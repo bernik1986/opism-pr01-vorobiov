@@ -1,0 +1,7 @@
+* Host neverssl.com:80 was resolved.
+* IPv6: (none)
+* IPv4: 34.223.124.45
+*   Trying 34.223.124.45:80...
+* Connection timed out after 15002 milliseconds
+* closing connection #0
+curl: (28) Connection timed out after 15002 milliseconds

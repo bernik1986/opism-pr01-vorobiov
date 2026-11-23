@@ -1,0 +1,9 @@
+{
+    "experiment":  "A3_external_second",
+    "command":  "Resolve-DnsName example.com -Server 1.1.1.1 -ErrorAction Continue 2\u003e\u00261 | Out-String -Width 4096",
+    "started":  "2026-11-23T08:26:52.6179182+01:00",
+    "started_elapsed_seconds":  362.4596092,
+    "finished":  "2026-11-23T08:26:52.6629903+01:00",
+    "exit_code":  null,
+    "error":  ""
+}
